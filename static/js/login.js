@@ -7,8 +7,7 @@ function login(form) {
 
     console.log(sla[0]);
 
-    window.location = 'main-page.html';
-    
+    window.location = 'main-page.html';    
 }
 
 function logoff() {
