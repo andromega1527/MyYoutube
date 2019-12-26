@@ -5,7 +5,7 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='dev',
-        DATABASE=os.path.join(app.instance_path, 'flask.sqlite'),
+        DATABASE=os.path.join(app.instance_path, 'youtube.sqlite')
     )
 
     if test_config is None:
@@ -23,7 +23,9 @@ def create_app(test_config=None):
     db.init_app(app)
 
     from youtube import auth
+    from youtube import sla
 
     app.register_blueprint(auth.bp)
+    app.register_blueprint(sla.bp)
 
     return app

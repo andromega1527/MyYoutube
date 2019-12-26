@@ -34,3 +34,5 @@ CREATE TABLE video (
     nome TEXT NOT NULL,
     descricao TEXT
 );
+
+INSERT INTO user VALUES('andrejc2008@hotmail.com', 'André Leonam', 'mario1527', 'admin');

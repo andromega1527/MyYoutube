@@ -2,6 +2,7 @@ import functools
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
+from werkzeug.security import check_password_hash, generate_password_hash
 from youtube.db import get_db
 # import HTTPServer as server
 # import SocketServer
@@ -46,18 +47,18 @@ def login():
         db = get_db()
         error = None
         user = db.execute(
-            'SELECT * FROM user WHERE nome = ?', (username)
+            'SELECT * FROM user WHERE email = ?', (username,)
         ).fetchone()
 
         if user is None:
             error = 'Nome incorreto :('
-        elif not check_password_hash(user['password'], password):
+        elif (not check_password_hash(user['senha'], password)) == 'True':
             error = 'Senha incorreta :('
 
         if error is None:
             session.clear()
             session['user_id'] = user['email']
-            return redirect(url_for('index'))
+            return redirect(url_for('sla.index')) #(arquivo python).(função que renderiza a pagina)
     
         flash(error)
 
@@ -71,7 +72,7 @@ def load_logged_in_user():
         g.user = None
     else:
         g.user = get_db().execute(
-            'SELECT * FROM user WHERE id = ?', (user_id)
+            'SELECT * FROM user WHERE email = ?', (user_id,)
         ).fetchone()
 
 @bp.route('/logout')
