@@ -4,23 +4,56 @@
         <meta charset="utf-8">
         <title>MYoutube</title>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'css/main.css') }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
 
     <body>
-        <div>
-            <div class="bars">
-                <div class="top-bar">
-
+        <div class="screen">
+            <div class="top-bar">
+                <div class="top-bar-link-left-bar">
+                    <a href="#"><i class="fa fa-bars"></i></a>
                 </div>
 
-                <div class="left-bar">
-
+                <div class="top-bar-logo">
+                    <a href="#"><img class="logo" src="{{ url_for('static', filename = 'img/MYoutube2.png') }}"></a>
                 </div>
+
+                <div class="top-bar-search">
+                    <input type="text" name="search" placeholder="Pesquisar">
+                    <button class="search-button"><i class="fa fa-search"></i></button>
+                </div>
+
+                <div class="top-bar-perfil">
+                    <img src="#">
+                    <label>Nome do Usuário</label>
+                </div>
+            </div>
+
+            <div class="left-bar" hidden>
+                <ul>
+                    <li>Sigo</li>
+                </ul>
+                <ul>
+                    <li><a href="#">Menu</a></li>
+                    <li><a href="#">Pendurar</a></li>
+                </ul>
             </div>
 
             <div class="main-screen">
-                
+                <div class="videos">
+                    <!-- <label class="videos-off">Sem Videos</label> -->
+                    {% for i in cleanVideosNames %}
+                    <div class="video-div">
+                        <a href="{{url_for('sla.video')}}">
+                            <img src="#">
+                            <label>{{i}}</label>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
+
+        <script src="{{ url_for('static', filename = 'js/main.js') }}"></script>
     </body>
 </html>

@@ -6,6 +6,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from youtube.db import get_db
 # import HTTPServer as server
 # import SocketServer
+from youtube.usuario import Usuario
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -50,10 +51,8 @@ def login():
             'SELECT * FROM user WHERE email = ?', (username,)
         ).fetchone()
 
-        if user is None:
-            error = 'Nome incorreto :('
-        elif (not check_password_hash(user['senha'], password)) == 'True':
-            error = 'Senha incorreta :('
+        if user is None or check_password_hash(user['senha'], password) == 'False' or user['senha'] != password:
+            error = 'Nome de usuário ou senha incorretos.'
 
         if error is None:
             session.clear()

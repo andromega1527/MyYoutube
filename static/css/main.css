@@ -5,22 +5,76 @@ body, html {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-.bars {
-    position: absolute;
-    display: flex;
+.screen {
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
 
 .top-bar {
-    background-color: black;
     top: 0;
     width: 100%;
-    height: 20%;
+    height: 10%;
+    display: flex;
+}
+
+.top-bar-logo, .top-bar-search, .top-bar-perfil, .top-bar-link-left-bar {
+    display: block;
+    margin: auto;
 }
 
 .left-bar {
-    background-color: black;
     top: 0;
     left: 0;
-    width: 20%;
-    height: 100%;
+    width: 5%;
+    height: 86%;
+}
+
+.main-screen {
+    background-color: rgb(184, 184, 184);
+    width: 100%;
+    height: 90%;
+    align-items: center;
+    text-align: center;
+}
+
+/* .top-bar-logo {
+    width: 30%;
+    height: 50%;
+} */
+
+.logo {
+    max-width: 45%;
+    max-width: 35%;
+}
+
+.search-button {
+    height: 2rem;
+    width: 2rem;
+    border-radius: 50%;
+}
+
+ul {
+    list-style-type:none;
+}
+
+div, a, i, img, button {
+    outline: none;
+}
+
+/* .videos-off {
+    
+} */
+
+.videos {
+    height: 50%;
+    display: flex;
+}
+
+.video-div {
+    background-color: white;
+    width: 24%;
+    height: 50%;
+    display: block;
+    margin: auto;
 }
