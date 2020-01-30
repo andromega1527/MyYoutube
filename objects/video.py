@@ -1,16 +1,20 @@
 class Video:
-    __codigo = ''
+    __code = ''
     __title = ''
     __description = ''
     __local = ''
 
-    def __init__(self, codigo, title, description, local):
-        self.__codigo = codigo
+    def __init__(self, code, title, description, local):
+        self.__code = code
         self.__title = title
         self.__description = description
         self.__local = local
 
     #Getters
+    @property
+    def code(self):
+        return self.__code
+
     @property
     def title(self):
         return self.__title

@@ -4,9 +4,6 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 from youtube.db import get_db
-# import HTTPServer as server
-# import SocketServer
-from youtube.usuario import Usuario
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -71,7 +68,7 @@ def load_logged_in_user():
         g.user = None
     else:
         g.user = get_db().execute(
-            'SELECT * FROM user WHERE email = ?', (user_id,)
+            'SELECT * FROM userMyoutube WHERE email = ?', (user_id,)
         ).fetchone()
 
 @bp.route('/logout')
@@ -88,12 +85,3 @@ def login_required(view):
         return view(**kwargs)
 
     return wrapped_view
-
-# def run():
-#     port = 8080
-#     handler = server.SimpleHTTPRequestHandler
-#     httpd = SocketServer.TCPServer(('', port), handler)
-#     httpd.serve_forever()
-
-# if __name__ == '__main__':
-#     app.run(debug=True)
