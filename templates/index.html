@@ -15,17 +15,25 @@
                 </div>
 
                 <div class="top-bar-logo">
-                    <a href="#"><img class="logo" src="{{ url_for('static', filename = 'img/MYoutube2.png') }}"></a>
+                    <a href="{{url_for('sla.index')}}"><img class="logo" src="{{ url_for('static', filename = 'img/MYoutube2.png') }}"></a>
                 </div>
 
                 <div class="top-bar-search">
-                    <input type="text" name="search" placeholder="Pesquisar">
-                    <button class="search-button"><i class="fa fa-search"></i></button>
+                    <form action="#" method="POST" name="search">
+                        <input type="text" name="search" placeholder="Pesquisar">
+                        <button type="submit" class="search-button"><i class="fa fa-search"></i></button>
+                    </form>
                 </div>
 
                 <div class="top-bar-perfil">
                     <img src="#">
-                    <label>{{user.name}}</label>
+                    <ul class="menu">
+                        <li><a href="#">{{user.name}}</a>
+                            <ul>
+                                <li><a href="{{url_for('auth.logout')}}">Sair</a></li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
             </div>
 
@@ -42,11 +50,11 @@
             <div class="main-screen">
                 <div class="videos">
                     <!-- <label class="videos-off">Sem Videos</label> -->
-                    {% for videoName in videosName %}
+                    {% for video in videos %}
                     <div class="video-div">
-                        <a href="{{url_for('sla.video')}}">
+                        <a href="{{url_for('sla.video', video=video.code)}}">
                             <img src="#">
-                            <label>{{videoName}}</label>
+                            <label>{{video.title}}</label>
                         </a>
                     </div>
                     {% endfor %}

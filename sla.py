@@ -5,66 +5,51 @@ from flask import (
 from werkzeug.security import check_password_hash, generate_password_hash
 from youtube.auth import login_required
 from youtube.db import get_db
-import os
-from youtube.objects.usuario import Usuario
-from youtube.objects.video import Video
-from youtube.db import get_db
+from youtube.conn import Server
+from youtube.load_informs import InformsUser
 
 bp = Blueprint('sla', __name__)
-
-def logoff():
-    session['user_id'] = '' 
+ifms = InformsUser()
 
 def verifyLogin():
-    if session['user_id'] in (None, ''):
-        return redirect(url_for('auth.login'))
-
-def loadUser(email):
-    db = get_db()
-    dbUser = db.execute(
-            'SELECT * FROM userMyoutube WHERE email = ?', (email,)
-    ).fetchone()
-    user = Usuario(dbUser['nameUser'], dbUser['email'], dbUser['passwordUser'], dbUser['permission'], dbUser['video'], dbUser['playlist'])
-
-    return user
-
-def loadVideos(email):
-    db = get_db()
-    videos = []
-    dbVideo = db.execute(
-        'SELECT video.code, video.nameVideo, video.descriptionVideo, video.localization \
-        FROM video_details \
-        INNER JOIN userMyoutube ON video_details.code_user = userMyoutube.email \
-        INNER JOIN video ON video_details.code_video = video.code \
-        WHERE userMyoutube.email = ?', (email,)
-    ).fetchall()
-
-    for i in dbVideo:
-        video_informs = []
-        for j in i:
-            video_informs.append(j)
-        
-        video = Video(video_informs[0], video_informs[1], video_informs[2], video_informs[3])
-        videos.append(video)
-
-    return videos
+    return False if session['user_id'] is '' else True
 
 @bp.route('/index')
 def index():
-    verifyLogin()
-    user = loadUser(session['user_id'])
-    videos = loadVideos(session['user_id'])
-    videosName = []
-    for i in videos:
-        videosName.append(i.title)
+    if verifyLogin() is False:
+        return redirect(url_for('auth.login'))
 
+    user = ifms.loadUser(session['user_id'])
+    videos = ifms.loadVideos(session['user_id'])
+    
     return render_template(
         'index.html',
         user=user,
-        videosName=videosName
+        videos=videos
     )
 
-@bp.route('/video')
-def video():
-    verifyLogin()
-    return render_template('video.html')
+@bp.route('/video/<video>')
+def video(video):
+    if verifyLogin() is False:
+        return redirect(url_for('auth.login'))
+
+    user = ifms.loadUser(session['user_id'])
+    videos = ifms.loadVideos(session['user_id'])
+
+    for i in videos:
+        if i.code == video:
+            videoName = i.code + ' - ' + i.title + '.mp4'
+
+    return render_template(
+        'video.html',
+        user=user,
+        videos=videos,
+        video=videoName
+    )
+
+@bp.route('/new_video')
+def new_video():
+    if verifyLogin() is False:
+        return redirect(url_for('auth.login'))
+
+    return render_template('new_video.html')

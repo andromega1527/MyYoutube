@@ -9,11 +9,10 @@ CREATE TABLE userMyoutube (
     nameUser TEXT NOT NULL,
     passwordUser TEXT NOT NULL,
     permission TEXT NOT NUll,
-    video INTEGER,
     playlist INTEGER
 );
 
-INSERT INTO userMyoutube VALUES('andrejc2008@hotmail.com', 'André Leonam', 'sla', 'admin', 1, NULL);
+INSERT INTO userMyoutube VALUES('andrejc2008@hotmail.com', 'André Leonam', 'sla', 'admin', NULL);
 
 CREATE TABLE video_details (
     code_user TEXT NOT NULL,
@@ -34,8 +33,8 @@ CREATE TABLE video (
 );
 
 INSERT INTO video VALUES(1, 'sla', 'sla', NULL);
-INSERT INTO video VALUES(2, 'sla2', 'sla', NULL);
-INSERT INTO video VALUES(3, 'sla3', 'sla', NULL);
+INSERT INTO video VALUES(2, 'sla1', 'sla', NULL);
+INSERT INTO video VALUES(3, 'sla2', 'sla', NULL);
 
 CREATE TABLE playlist_details (
     code_usuario INTEGER PRIMARY KEY,

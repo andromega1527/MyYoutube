@@ -3,15 +3,13 @@ class Usuario:
     __name = ''
     __password = ''
     __permissao = ''
-    __myVideos = []
     __playlist = ''
 
-    def __init__(self, name, email, password, permissao, myVideos, playlist):
+    def __init__(self, name, email, password, permissao, playlist):
         self.__name = name
         self.__email = email
         self.__password = password
         self.__permissao = permissao
-        self.__myVideos = myVideos
         self.__playlist = playlist
 
     #Getters
@@ -30,10 +28,6 @@ class Usuario:
     @property
     def permissao(self):
         return self.__permissao
-
-    @property
-    def myVideos(self):
-        return self.__myVideos
 
     @property
     def playlist(self):
@@ -55,10 +49,6 @@ class Usuario:
     @permissao.setter
     def permissao(self, value):
         self.__permissao = value
-
-    @myVideos.setter
-    def myVideos(self, value):
-        self.__myVideos = value
 
     @playlist.setter
     def playlist(self, value):

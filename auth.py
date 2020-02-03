@@ -4,9 +4,12 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 from youtube.db import get_db
+from youtube.conn import Server
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
+def verifyLogin():
+    return False if len(session) > 0 else True
 
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
@@ -39,6 +42,9 @@ def register():
 
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
+    if verifyLogin() is False:
+        return redirect(url_for('sla.index'))
+        
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -54,10 +60,11 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = user['email']
+            Server().connect()
             return redirect(url_for('sla.index')) #(arquivo python).(função que renderiza a pagina)
     
         flash(error)
-
+    
     return render_template('login.html')
 
 @bp.before_app_request
@@ -74,7 +81,8 @@ def load_logged_in_user():
 @bp.route('/logout')
 def logout():
     session.clear()
-    return redirect(url_for('index'))
+    Server().closeConnection()
+    return redirect(url_for('auth.login'))
 
 def login_required(view):
     @functools.wraps(view)
