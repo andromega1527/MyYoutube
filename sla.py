@@ -47,9 +47,16 @@ def video(video):
         video=videoName
     )
 
-@bp.route('/new_video')
+@bp.route('/new_video', methods=('GET', 'POST'))
 def new_video():
     if verifyLogin() is False:
         return redirect(url_for('auth.login'))
+    
+    if request.method == 'POST':
+        file = request.form['file']
+
+        Server().sendFile(file)
+
+        redirect(url_for('sla.new_video'))
 
     return render_template('new_video.html')

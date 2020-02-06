@@ -1,4 +1,5 @@
 import os
+import socket
 
 class Server:
     def __init__(self):
@@ -16,6 +17,20 @@ class Server:
     def closeConnection(self):
         sla = os.system('sudo umount {}'.format(self._direc))
         print('conexão fechada') if sla == 0 else print('não foi possivel fechar a conexão')
+
+    def sendFile(self, file):
+        HOST = '192.168.0.100'
+        PORT = 8000
+
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect((HOST, PORT))
+        arq = open(file, 'r')
+
+        for i in arq.readlines():
+            s.send(i)
+
+        arq.close()
+        s.close()
 
 # import socket
 # from paramiko import SSHClient
