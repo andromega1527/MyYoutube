@@ -3,24 +3,33 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
 from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.utils import secure_filename
 from youtube.auth import login_required
 from youtube.db import get_db
 from youtube.conn import Server
-from youtube.load_informs import InformsUser
+from youtube.video_informs import loadVideos
+from youtube.user_informs import loadUser
+import os
 
 bp = Blueprint('sla', __name__)
-ifms = InformsUser()
+
+UPLOAD_FOLDER = './youtube/uploads'
+ALLOWED_EXTENSIONS = {'mp4'}
 
 def verifyLogin():
     return False if session['user_id'] is '' else True
+
+def allowed_files(filename):
+    return '.' in filename and \
+        filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @bp.route('/index')
 def index():
     if verifyLogin() is False:
         return redirect(url_for('auth.login'))
 
-    user = ifms.loadUser(session['user_id'])
-    videos = ifms.loadVideos(session['user_id'])
+    user = loadUser(session['user_id'])
+    videos = loadVideos(session['user_id'])
     
     return render_template(
         'index.html',
@@ -33,12 +42,12 @@ def video(video):
     if verifyLogin() is False:
         return redirect(url_for('auth.login'))
 
-    user = ifms.loadUser(session['user_id'])
-    videos = ifms.loadVideos(session['user_id'])
+    user = loadUser(session['user_id'])
+    videos = loadVideos(session['user_id'])
 
     for i in videos:
         if i.code == video:
-            videoName = i.code + ' - ' + i.title + '.mp4'
+            videoName = i.code + '.mp4'
 
     return render_template(
         'video.html',
@@ -53,10 +62,27 @@ def new_video():
         return redirect(url_for('auth.login'))
     
     if request.method == 'POST':
-        file = request.form['file']
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
 
-        Server().sendFile(file)
+        title = request.form['title']
+        description = request.form['description']
+        file = request.files['file']
 
-        redirect(url_for('sla.new_video'))
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_files(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(UPLOAD_FOLDER, filename))
+            user = loadUser(session['user_id'])
+            user.add_video(filename, title, description)
+            Server().closeConnection()
+            Server().connect(session['user_id'])
+            # return redirect(url_for('uploaded_file', 
+            #         filename=filename
+            # ))
+            redirect(url_for('sla.index'))
 
     return render_template('new_video.html')

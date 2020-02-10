@@ -6,10 +6,10 @@
 
     <body>
         <div>
-            <form method="POST" name="form-new-video">
-                <input type="text" name="title" id="title" required>
-                <input type="text" name="description" id="description" required>
-                <input type="file" accept="file/*" name="file" id="file" required>
+            <form enctype="multipart/form-data" method="POST" name="form-new-video">
+                <input type="text" name="title" required>
+                <input type="text" name="description" required>
+                <input type="file" name="file">
 
                 <button type="submit">Enviar</button>
             </form>

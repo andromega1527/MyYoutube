@@ -8,11 +8,10 @@ CREATE TABLE userMyoutube (
     email TEXT PRIMARY KEY NOT NULL,
     nameUser TEXT NOT NULL,
     passwordUser TEXT NOT NULL,
-    permission TEXT NOT NUll,
-    playlist INTEGER
+    permission TEXT NOT NUll
 );
 
-INSERT INTO userMyoutube VALUES('andrejc2008@hotmail.com', 'André Leonam', 'sla', 'admin', NULL);
+INSERT INTO userMyoutube VALUES('andrejc2008@hotmail.com', 'André Leonam', 'sla', 'admin');
 
 CREATE TABLE video_details (
     code_user TEXT NOT NULL,

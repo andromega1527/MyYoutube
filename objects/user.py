@@ -1,3 +1,7 @@
+from youtube.db import get_db
+from youtube.conn import Server
+from youtube.video_informs import loadVideos
+
 class Usuario:
     __email = ''
     __name = ''
@@ -5,12 +9,11 @@ class Usuario:
     __permissao = ''
     __playlist = ''
 
-    def __init__(self, name, email, password, permissao, playlist):
+    def __init__(self, name, email, password, permissao):
         self.__name = name
         self.__email = email
         self.__password = password
         self.__permissao = permissao
-        self.__playlist = playlist
 
     #Getters
     @property
@@ -29,10 +32,6 @@ class Usuario:
     def permissao(self):
         return self.__permissao
 
-    @property
-    def playlist(self):
-        return self.__playlist
-
     #Setters
     @name.setter
     def name(self, value):
@@ -50,13 +49,32 @@ class Usuario:
     def permissao(self, value):
         self.__permissao = value
 
-    @playlist.setter
-    def playlist(self, value):
-        self.__playlist = value
-
     #Methods
-    def add_video(self, video):
-        pass
+    def add_video(self, filename, nameVideo, descriptionVideo, localization=None):
+        db = get_db()
+        max_code = 0
+
+        db.execute(
+            'INSERT INTO video (nameVideo, descriptionVideo, localization) \
+            VALUES (?, ?, ?)', (nameVideo, descriptionVideo, localization,)
+        )
+
+        videos = db.execute(
+            'SELECT code FROM video'
+        ).fetchall()
+        
+        for i in videos:
+            for j in i:
+                if j > max_code:
+                    max_code = j    
+
+        db.execute(
+            'INSERT INTO video_details (code_user, code_video) \
+            VALUES (?, ?)', (self.__email, int(max_code),)
+        )
+        db.commit()
+
+        Server().sendFile(filename, str(max_code), self.__email)
 
     def remove_video(self, video):
         pass
@@ -66,6 +84,3 @@ class Usuario:
 
     def remove_playlist(self, playlist):
         pass
-
-    def show_name(self):
-        return self.__name

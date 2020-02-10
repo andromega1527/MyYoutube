@@ -60,7 +60,7 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = user['email']
-            Server().connect()
+            Server().connect(session['user_id'])
             return redirect(url_for('sla.index')) #(arquivo python).(função que renderiza a pagina)
     
         flash(error)

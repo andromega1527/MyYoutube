@@ -34,7 +34,6 @@ class Video:
 
     #Methods
 
-
     # @classmethod
     # def method(cls):
 
