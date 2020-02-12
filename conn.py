@@ -27,7 +27,10 @@ class Server:
         arq = open('./youtube/uploads/{}'.format(filename) , 'rb')
 
         s.send(bytes(user_id, 'utf-8'))
-        s.send(bytes(video_code + '.mp4', 'utf-8'))
+        if '.mkv' in filename:
+            s.send(bytes(video_code + '.mkv', 'utf-8'))
+        else:
+            s.send(bytes(video_code + '.mp4', 'utf-8'))
 
         for i in arq.readlines():
             s.send(i)

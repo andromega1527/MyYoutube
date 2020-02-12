@@ -72,9 +72,9 @@ class Usuario:
             'INSERT INTO video_details (code_user, code_video) \
             VALUES (?, ?)', (self.__email, int(max_code),)
         )
-        db.commit()
 
         Server().sendFile(filename, str(max_code), self.__email)
+        db.commit()
 
     def remove_video(self, video):
         pass
