@@ -1,8 +1,12 @@
 import os
-from flask import Flask
+from flask import Flask, redirect, url_for
+
+def not_found(e):
+    return redirect(url_for('auth.login')), 404
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
+    app.register_error_handler(404, not_found)
     app.config.from_mapping(
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'youtube.sqlite')
