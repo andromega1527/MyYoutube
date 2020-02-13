@@ -50,13 +50,13 @@ class Usuario:
         self.__permissao = value
 
     #Methods
-    def add_video(self, filename, nameVideo, descriptionVideo, localization=None):
+    def add_video(self, filename, nameVideo, descriptionVideo, extension):
         db = get_db()
         max_code = 0
 
         db.execute(
-            'INSERT INTO video (nameVideo, descriptionVideo, localization) \
-            VALUES (?, ?, ?)', (nameVideo, descriptionVideo, localization,)
+            'INSERT INTO video (nameVideo, descriptionVideo, extension) \
+            VALUES (?, ?, ?)', (nameVideo, descriptionVideo, extension,)
         )
 
         videos = db.execute(
@@ -66,14 +66,14 @@ class Usuario:
         for i in videos:
             for j in i:
                 if j > max_code:
-                    max_code = j    
+                    max_code = j
 
         db.execute(
             'INSERT INTO video_details (code_user, code_video) \
             VALUES (?, ?)', (self.__email, int(max_code),)
         )
 
-        Server().sendFile(filename, str(max_code), self.__email)
+        Server().sendFile(filename, str(max_code), self.__email, extension)
         db.commit()
 
     def remove_video(self, video):

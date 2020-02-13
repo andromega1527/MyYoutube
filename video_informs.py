@@ -5,7 +5,7 @@ def loadVideos(email):
     db = get_db()
     videos = []
     dbVideo = db.execute(
-        'SELECT video.code, video.nameVideo, video.descriptionVideo, video.localization \
+        'SELECT video.code, video.nameVideo, video.descriptionVideo, video.extension \
         FROM video_details \
         INNER JOIN userMyoutube ON video_details.code_user = userMyoutube.email \
         INNER JOIN video ON video_details.code_video = video.code \

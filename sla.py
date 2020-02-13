@@ -47,7 +47,7 @@ def video(video):
 
     for i in videos:
         if i.code == video:
-            videoName = i.code + '.mp4'
+            videoName = i.code + i.extension
 
     return render_template(
         'video.html',
@@ -77,7 +77,13 @@ def new_video():
             filename = secure_filename(file.filename)
             file.save(os.path.join(UPLOAD_FOLDER, filename))
             user = loadUser(session['user_id'])
-            user.add_video(filename, title, description)
+
+            extension = ''
+            for i in filename:
+                if len(extension) > 0 or i == '.':
+                    extension += i
+
+            user.add_video(filename, title, description, extension)
             Server().closeConnection()
             Server().connect(session['user_id'])
             # return redirect(url_for('uploaded_file', 

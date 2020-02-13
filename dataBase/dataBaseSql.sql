@@ -28,12 +28,12 @@ CREATE TABLE video (
     code INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     nameVideo TEXT NOT NULL,
     descriptionVideo TEXT,
-    localization TEXT
+    extension TEXT
 );
 
-INSERT INTO video VALUES(1, 'sla', 'sla', NULL);
-INSERT INTO video VALUES(2, 'sla1', 'sla', NULL);
-INSERT INTO video VALUES(3, 'sla2', 'sla', NULL);
+INSERT INTO video VALUES(1, 'sla', 'sla', '.mp4');
+INSERT INTO video VALUES(2, 'sla1', 'sla', '.mp4');
+INSERT INTO video VALUES(3, 'sla2', 'sla', '.mp4');
 
 CREATE TABLE playlist_details (
     code_usuario INTEGER PRIMARY KEY,

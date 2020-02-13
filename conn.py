@@ -21,22 +21,22 @@ class Server:
         sla = os.system('sudo umount {}'.format(self._direc))
         print('conexão fechada') if sla == 0 else print('não foi possivel fechar a conexão')
 
-    def sendFile(self, filename, video_code, user_id):
+    def sendFile(self, filename, video_code, user_id, extension):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.connect((self._host, self._port))
         arq = open('./youtube/uploads/{}'.format(filename) , 'rb')
 
         s.send(bytes(user_id, 'utf-8'))
-        if '.mkv' in filename:
-            s.send(bytes(video_code + '.mkv', 'utf-8'))
-        else:
-            s.send(bytes(video_code + '.mp4', 'utf-8'))
+        s.send(bytes(video_code + extension, 'utf-8'))
 
         for i in arq.readlines():
             s.send(i)
 
         arq.close()
         s.close()
+
+    def deletFile(self):
+        pass
 
 # import socket
 # from paramiko import SSHClient
