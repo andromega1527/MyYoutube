@@ -7,7 +7,7 @@
 
     <body>
         <div>
-            <video width="720" height="480" controls>
+            <video width="720" height="480" controls preload>
                 <source src="{{ url_for('static', filename = 'videos/' + video) }}" type="video/mp4">
             </video>
         </div>

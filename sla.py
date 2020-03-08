@@ -13,7 +13,6 @@ import os
 
 bp = Blueprint('sla', __name__)
 
-UPLOAD_FOLDER = './youtube/uploads'
 ALLOWED_EXTENSIONS = {'mp4'}
 
 def verifyLogin():
@@ -75,7 +74,6 @@ def new_video():
             return redirect(request.url)
         if file and allowed_files(file.filename):
             filename = secure_filename(file.filename)
-            file.save(os.path.join(UPLOAD_FOLDER, filename))
             user = loadUser(session['user_id'])
 
             extension = ''
@@ -83,9 +81,7 @@ def new_video():
                 if len(extension) > 0 or i == '.':
                     extension += i
 
-            user.add_video(filename, title, description, extension)
-            Server().closeConnection()
-            Server().connect(session['user_id'])
+            user.add_video(title, description, extension, file)
             # return redirect(url_for('uploaded_file', 
             #         filename=filename
             # ))

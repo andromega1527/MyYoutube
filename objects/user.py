@@ -50,7 +50,7 @@ class Usuario:
         self.__permissao = value
 
     #Methods
-    def add_video(self, filename, nameVideo, descriptionVideo, extension):
+    def add_video(self, nameVideo, descriptionVideo, extension, file):
         db = get_db()
         max_code = 0
 
@@ -73,7 +73,7 @@ class Usuario:
             VALUES (?, ?)', (self.__email, int(max_code),)
         )
 
-        Server().sendFile(filename, str(max_code), self.__email, extension)
+        Server().sendFile(str(max_code), self.__email, extension, file)
         db.commit()
 
     def remove_video(self, video):

@@ -14,29 +14,44 @@ class Server:
     def connect(self, user_id):
         # umount pasta
         # mount -t //ip_do_servidor_samba/nome_do_compartilhamento /mnt/ -o username=nome_do_usuario,password=senha_do_usuario
-        sla = os.system('sudo mount -t cifs //{}/myoutube/{}/videos {} -o username={},password={}'.format(self._host, user_id, self._direc, self._username, self._password))
-        print('conexão bem sucedida') if sla == 0 else print('não foi possivel se conectar ao servidor')
+        sla = os.system('sudo mount -t cifs //{}/myoutube/{}/videos {} -o username={},password={},dir_mode=0777,file_mode=0777'.format(self._host, user_id, self._direc, self._username, self._password))
+        print('\n\nConexão bem sucedida\n\n') if sla == 0 else print('\n\nNão foi possivel se conectar ao servidor\n\n')
 
     def closeConnection(self):
         sla = os.system('sudo umount {}'.format(self._direc))
-        print('conexão fechada') if sla == 0 else print('não foi possivel fechar a conexão')
+        print('\n\nConexão fechada\n\n') if sla == 0 else print('\n\nNão foi possivel fechar a conexão\n\n')
 
-    def sendFile(self, filename, video_code, user_id, extension):
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect((self._host, self._port))
-        arq = open('./youtube/uploads/{}'.format(filename) , 'rb')
+    def restartConnection(self, user_id):
+        self.closeConnection()
+        self.connect(user_id)
 
-        s.send(bytes(user_id, 'utf-8'))
-        s.send(bytes(video_code + extension, 'utf-8'))
+    def sendFile(self, video_code, user_id, extension, file):
+        filename = video_code + extension
+        file.save(os.path.join(self._direc, filename))
 
-        for i in arq.readlines():
-            s.send(i)
-
-        arq.close()
-        s.close()
+        if extension != '.mp4':
+            convert = os.system('ffmpeg -i {0}{1} -c:v copy -c:a copy {2}{0}'.format(self._direc, filename, (video_code + '.mp4')))
+            os.system('rm {}{}'.format(self._direc, filename))
+            print('\n\nArquivo convertido com sucesso!!\n\n') if convert == 0 else print('\n\nErro na conversão do arquivo\n\n')
+        
+        self.restartConnection(user_id)
 
     def deletFile(self):
         pass
+
+# def sendFile(self, filename, video_code, user_id, extension):
+#         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+#         s.connect((self._host, self._port))
+#         arq = open('./youtube/uploads/{}'.format(filename) , 'rb')
+
+#         s.send(bytes(user_id, 'utf-8'))
+#         s.send(bytes(video_code + extension, 'utf-8'))
+
+#         for i in arq.readlines():
+#             s.send(i)
+
+#         arq.close()
+#         s.close()
 
 # import socket
 # from paramiko import SSHClient
