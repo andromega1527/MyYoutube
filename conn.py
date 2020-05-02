@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
-import socket
+# import socket
 
 class Server:
     def __init__(self):
@@ -29,65 +29,8 @@ class Server:
         filename = video_code + extension
         file.save(os.path.join(self._direc, filename))
 
-        if extension != '.mp4':
-            convert = os.system('ffmpeg -i {0}{1} -c:v copy -c:a copy {2}{0}'.format(self._direc, filename, (video_code + '.mp4')))
-            os.system('rm {}{}'.format(self._direc, filename))
-            print('\n\nArquivo convertido com sucesso!!\n\n') if convert == 0 else print('\n\nErro na conversão do arquivo\n\n')
-        
         self.restartConnection(user_id)
 
-    def deletFile(self):
-        pass
-
-# def sendFile(self, filename, video_code, user_id, extension):
-#         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-#         s.connect((self._host, self._port))
-#         arq = open('./youtube/uploads/{}'.format(filename) , 'rb')
-
-#         s.send(bytes(user_id, 'utf-8'))
-#         s.send(bytes(video_code + extension, 'utf-8'))
-
-#         for i in arq.readlines():
-#             s.send(i)
-
-#         arq.close()
-#         s.close()
-
-# import socket
-# from paramiko import SSHClient
-# import paramiko
-# import requests
-
-# class SSH:
-#     def __init__(self):
-#         self.ssh = SSHClient()
-#         self.ssh.load_system_host_keys()
-#         self.ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-#         self.ssh.connect(hostname='192.168.0.100', port=22, username='andromega', password='mario1527')
-#         # self.ssh._host_keys.load('//home')
-
-#     def exec_cmd(self, cmd):
-#         stdin, stdout, stderr = self.ssh.exec_command(cmd)
-#         if stderr.channel.recv_exit_status() != 0:
-#             print(stderr.read())
-#         else:
-#             print(stdout.read())
-
-# if __name__ == '__main__':
-#     ssh = SSH()
-#     ssh.exec_cmd('ls')
-
-# def connection(self):
-    #     HOST = '192.168.0.100'
-    #     PORT = 8000
-    #     tcp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    #     dest = (HOST, PORT)
-    #     tcp.connect(dest)
-
-    #     print('Para sair use Ctrl+X\n')
-    #     msg = input()
-    #     while msg != '\x18':
-    #         tcp.send(msg)
-    #         msg = input()
-
-    #     tcp.close()
+    def deletFile(self, link_video):
+        remove_video = os.system('rm {}'.format(link_video))
+        print('\n\nArquivo removido com sucesso!!\n\n') if remove_video == 0 else print('\n\nErro na remoção do arquivo\n\n')

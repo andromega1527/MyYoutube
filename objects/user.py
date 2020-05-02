@@ -2,7 +2,7 @@ from youtube.db import get_db
 from youtube.conn import Server
 from youtube.video_informs import loadVideos
 
-class Usuario:
+class User:
     __email = ''
     __name = ''
     __password = ''
@@ -76,7 +76,7 @@ class Usuario:
         Server().sendFile(str(max_code), self.__email, extension, file)
         db.commit()
 
-    def remove_video(self, video):
+    def remove_video(self, link_video):
         pass
 
     def add_playlist(self, playlist):

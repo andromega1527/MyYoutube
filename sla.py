@@ -1,7 +1,4 @@
-import functools
-from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for
-)
+from flask import Blueprint, flash, g, redirect, render_template, request, session, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.utils import secure_filename
 from youtube.auth import login_required
@@ -9,7 +6,6 @@ from youtube.db import get_db
 from youtube.conn import Server
 from youtube.video_informs import loadVideos
 from youtube.user_informs import loadUser
-import os
 
 bp = Blueprint('sla', __name__)
 
@@ -64,7 +60,7 @@ def new_video():
         if 'file' not in request.files:
             flash('No file part')
             return redirect(request.url)
-
+            
         title = request.form['title']
         description = request.form['description']
         file = request.files['file']
@@ -75,8 +71,8 @@ def new_video():
         if file and allowed_files(file.filename):
             filename = secure_filename(file.filename)
             user = loadUser(session['user_id'])
-
             extension = ''
+
             for i in filename:
                 if len(extension) > 0 or i == '.':
                     extension += i
