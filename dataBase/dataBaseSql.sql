@@ -20,20 +20,12 @@ CREATE TABLE video_details (
     FOREIGN KEY(code_user) REFERENCES userMyoutube(email)
 );
 
-INSERT INTO video_details VALUES('andrejc2008@hotmail.com', 1);
-INSERT INTO video_details VALUES('andrejc2008@hotmail.com', 2);
-INSERT INTO video_details VALUES('andrejc2008@hotmail.com', 3);
-
 CREATE TABLE video (
     code INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     nameVideo TEXT NOT NULL,
     descriptionVideo TEXT,
     extension TEXT
 );
-
-INSERT INTO video VALUES(1, 'sla', 'sla', '.mp4');
-INSERT INTO video VALUES(2, 'sla1', 'sla', '.mp4');
-INSERT INTO video VALUES(3, 'sla2', 'sla', '.mp4');
 
 CREATE TABLE playlist_details (
     code_usuario INTEGER PRIMARY KEY,
