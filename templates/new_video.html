@@ -2,9 +2,16 @@
 <html>
     <head>
         <title>Pendurar Video</title>
+        {% block link_css %}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'css/base.css') }}">
+        {% endblock %}
     </head>
 
     <body>
+        {% extends 'base.html' %}
+
+        {% block main_screen %}
         <div>
             <form enctype="multipart/form-data" method="POST" name="form-new-video">
                 <input type="text" name="title" required>
@@ -14,6 +21,7 @@
                 <button type="submit">Enviar</button>
             </form>
         </div>
+        {% endblock %}
 
     </body>
 </html>

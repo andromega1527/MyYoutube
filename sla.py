@@ -11,7 +11,7 @@ bp = Blueprint('sla', __name__)
 
 ALLOWED_EXTENSIONS = {'mp4'}
 
-def verifyLogin():
+def is_allowed_login():
     return False if session['user_id'] is '' else True
 
 def allowed_files(filename):
@@ -20,7 +20,7 @@ def allowed_files(filename):
 
 @bp.route('/index')
 def index():
-    if verifyLogin() is False:
+    if not is_allowed_login():
         return redirect(url_for('auth.login'))
 
     user = loadUser(session['user_id'])
@@ -34,7 +34,7 @@ def index():
 
 @bp.route('/video/<video>')
 def video(video):
-    if verifyLogin() is False:
+    if is_allowed_login() is False:
         return redirect(url_for('auth.login'))
 
     user = loadUser(session['user_id'])
@@ -53,8 +53,10 @@ def video(video):
 
 @bp.route('/new_video', methods=('GET', 'POST'))
 def new_video():
-    if verifyLogin() is False:
+    if is_allowed_login() is False:
         return redirect(url_for('auth.login'))
+
+    user = loadUser(session['user_id'])
     
     if request.method == 'POST':
         if 'file' not in request.files:
@@ -70,7 +72,6 @@ def new_video():
             return redirect(request.url)
         if file and allowed_files(file.filename):
             filename = secure_filename(file.filename)
-            user = loadUser(session['user_id'])
             extension = ''
 
             for i in filename:
@@ -83,4 +84,7 @@ def new_video():
             # ))
             redirect(url_for('sla.index'))
 
-    return render_template('new_video.html')
+    return render_template(
+        'new_video.html',
+        user=user
+    )

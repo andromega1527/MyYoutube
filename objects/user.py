@@ -73,7 +73,7 @@ class User:
             VALUES (?, ?)', (self.__email, int(max_code),)
         )
 
-        Server().sendFile(str(max_code), self.__email, extension, file)
+        Server().send_file(str(max_code), self.__email, extension, file)
         db.commit()
 
     def remove_video(self, link_video):

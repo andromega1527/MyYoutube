@@ -1,16 +1,3 @@
-body, html {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-.screen {
-    position: relative;
-    width: 100%;
-    height: 100%;
-}
-
 .top-bar {
     top: 0;
     width: 100%;
@@ -30,14 +17,6 @@ body, html {
     height: 86%;
 }
 
-.main-screen {
-    background-color: rgb(184, 184, 184);
-    width: 100%;
-    height: 90%;
-    align-items: center;
-    text-align: center;
-}
-
 /* .top-bar-logo {
     width: 30%;
     height: 50%;
@@ -54,54 +33,27 @@ body, html {
     border-radius: 50%;
 }
 
-ul {
-    list-style-type:none;
-}
-
-div, a, i, img, button {
-    outline: none;
-}
-
-/* .videos-off {
-    
-} */
-
-.videos {
-    height: 50%;
-    display: flex;
-}
-
-.video-div {
-    background-color: white;
-    width: 24%;
-    height: 50%;
-    display: block;
-    margin: auto;
-}
-
 /* sla */
 
 .menu {
     list-style: none;
-    border: 1px, solid #c0c0c0;
+    border: 1%, solid #c0c0c0;
     float: left;
 }
 
 .menu li {
     position: relative;
     float: left;
-    border: 1px, solid #c0c0c0;
+    border: 1%, solid #c0c0c0;
 }
 
-menu li a {
+.menu li a {
     color: #333;
     text-decoration: none;
-    padding: 5px 10px;
     display: block;
 }
 
-.menu li a:hover {
-    background-color: #333;
+.menu li {
     color: #fff;
     -moz-box-shadow: 0 3px 10px 0 #ccc;
     -webkit-box-shadow: 0 3px 10px 0 #ccc;
@@ -120,7 +72,7 @@ menu li a {
 }
 
 .menu li ul li {
-    border: 1px solid #c0c0c0;
+    border: 1% solid #c0c0c0;
     display: block;
-    width: 150px;
+    width: 100%;
 }

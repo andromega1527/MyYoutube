@@ -81,7 +81,7 @@ def load_logged_in_user():
 @bp.route('/logout')
 def logout():
     session.clear()
-    Server().closeConnection()
+    Server().close_connection()
     return redirect(url_for('auth.login'))
 
 def login_required(view):
