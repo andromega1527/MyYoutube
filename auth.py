@@ -4,7 +4,7 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 from youtube.db import get_db
-from youtube.conn import Server
+from youtube.server import Server
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 

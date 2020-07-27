@@ -1,19 +1,18 @@
 from youtube.db import get_db
-from youtube.conn import Server
-from youtube.video_informs import loadVideos
+from youtube.server import Server
 
 class User:
     __email = ''
     __name = ''
     __password = ''
-    __permissao = ''
+    __permition = ''
     __playlist = ''
 
-    def __init__(self, name, email, password, permissao):
+    def __init__(self, name, email, password, permition):
         self.__name = name
         self.__email = email
         self.__password = password
-        self.__permissao = permissao
+        self.__permition = permition
 
     #Getters
     @property
@@ -29,8 +28,8 @@ class User:
         return self.__password
 
     @property
-    def permissao(self):
-        return self.__permissao
+    def permition(self):
+        return self.__permition
 
     #Setters
     @name.setter
@@ -45,18 +44,18 @@ class User:
     def password(self, value):
         self.__password = value
 
-    @permissao.setter
-    def permissao(self, value):
-        self.__permissao = value
+    @permition.setter
+    def permition(self, value):
+        self.__permition = value
 
     #Methods
-    def add_video(self, nameVideo, descriptionVideo, extension, file):
+    def add_video(self, video_name, video_description, extension, file):
         db = get_db()
         max_code = 0
 
         db.execute(
             'INSERT INTO video (nameVideo, descriptionVideo, extension) \
-            VALUES (?, ?, ?)', (nameVideo, descriptionVideo, extension,)
+            VALUES (?, ?, ?)', (video_name, video_description, extension,)
         )
 
         videos = db.execute(

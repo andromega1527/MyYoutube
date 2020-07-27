@@ -1,3 +1,5 @@
+from youtube.db import get_db
+
 class Video:
     __code = ''
     __title = ''
@@ -41,7 +43,6 @@ class Video:
         self.__extension = value
 
     #Methods
-
     # @classmethod
     # def method(cls):
 
